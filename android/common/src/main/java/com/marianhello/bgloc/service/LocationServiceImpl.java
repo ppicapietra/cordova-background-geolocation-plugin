@@ -286,7 +286,7 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
         if (containsCommand) {
             LocationServiceIntentBuilder.Command cmd = getCommand(intent);
             processCommand(cmd.getId(), cmd.getArgument());
-        } else {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Could be a BOOT-event, or the OS just randomly restarted the service...
             startForegroundService();
         }
@@ -633,7 +633,10 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
 
     @Override
     public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
-        return super.registerReceiver(receiver, filter, null, mServiceHandler, RECEIVER_NOT_EXPORTED);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return super.registerReceiver(receiver, filter, null, mServiceHandler, RECEIVER_NOT_EXPORTED);
+          }
+          return super.registerReceiver(receiver, filter, null, mServiceHandler);
     }
 
     @Override

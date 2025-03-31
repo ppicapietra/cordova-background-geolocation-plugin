@@ -56,18 +56,25 @@ public class NotificationHelper {
 
             builder.setContentTitle(title);
             builder.setContentText(text);
-            builder.setOngoing(true);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                builder.setOngoing(true);
+            }
             if (smallIcon != null && !smallIcon.isEmpty()) {
                 builder.setSmallIcon(mResolver.getDrawable(smallIcon));
             } else {
                 builder.setSmallIcon(android.R.drawable.ic_menu_mylocation);
             }
             if (largeIcon != null && !largeIcon.isEmpty()) {
-                int largeIconId = mResolver.getDrawable(largeIcon);
-                if (largeIconId == 0) {
-                    logger.warn("The resource " + largeIcon + " was not found in the drawable folder. Please include it when building the app.");
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    int largeIconId = mResolver.getDrawable(largeIcon);
+                    if (largeIconId == 0) {
+                        logger.warn("The resource " + largeIcon + " was not found in the drawable folder. Please include it when building the app.");
+                    }
+                    builder.setLargeIcon(BitmapFactory.decodeResource(appContext.getResources(), largeIconId));
                 }
-                builder.setLargeIcon(BitmapFactory.decodeResource(appContext.getResources(), largeIconId));
+                else {
+                    builder.setLargeIcon(BitmapFactory.decodeResource(appContext.getResources(), mResolver.getDrawable(largeIcon)));
+                }
             }
             if (color != null && !color.isEmpty()) {
                 builder.setColor(this.parseNotificationIconColor(color));
@@ -79,10 +86,15 @@ public class NotificationHelper {
             if (launchIntent != null) {
                 // NOTICE: testing apps might not have registered launch intent
                 launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
                         ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
                         : PendingIntent.FLAG_CANCEL_CURRENT;
-                PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, flags);
+                    PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, flags);
+                }
+                else {
+                    PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                }
                 builder.setContentIntent(contentIntent);
             }
 

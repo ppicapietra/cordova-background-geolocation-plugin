@@ -234,13 +234,15 @@ public class BackgroundGeolocationFacade {
                 }
             }
         });
-        permissionManager.checkPermissions(Arrays.asList(Manifest.permission.POST_NOTIFICATIONS), new PermissionManager.PermissionRequestListener() {
-            @Override
-            public void onPermissionGranted() {} // noop
-
-            @Override
-            public void onPermissionDenied(DeniedPermissions deniedPermissions) {} // noop
-        });
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            permissionManager.checkPermissions(Arrays.asList(Manifest.permission.POST_NOTIFICATIONS), new PermissionManager.PermissionRequestListener() {
+                @Override
+                public void onPermissionGranted() {} // noop
+    
+                @Override
+                public void onPermissionDenied(DeniedPermissions deniedPermissions) {} // noop
+            });
+        }
     }
 
     public void stop() {

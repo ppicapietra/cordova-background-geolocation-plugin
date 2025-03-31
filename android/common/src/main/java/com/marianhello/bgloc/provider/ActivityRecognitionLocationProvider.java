@@ -52,14 +52,21 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
     public void onCreate() {
         super.onCreate();
 
-        Intent detectedActivitiesIntent = new Intent(mContext, DetectedActivitiesReceiver.class);
-        detectedActivitiesIntent.setAction(DETECTED_ACTIVITY_UPDATE);
-
-        int updateCurrentFlag = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                    ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE
-                    : PendingIntent.FLAG_UPDATE_CURRENT;
-        detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, updateCurrentFlag);
-        registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+            Intent detectedActivitiesIntent = new Intent(mContext, DetectedActivitiesReceiver.class);
+            detectedActivitiesIntent.setAction(DETECTED_ACTIVITY_UPDATE);
+    
+            int updateCurrentFlag = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                        ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE
+                        : PendingIntent.FLAG_UPDATE_CURRENT;
+            detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, updateCurrentFlag);
+            registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
+          }
+          else {
+            Intent detectedActivitiesIntent = new Intent(DETECTED_ACTIVITY_UPDATE);
+            detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
+          }
     }
 
     @Override
@@ -160,7 +167,8 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
         } else if (googleApiClient.isConnected()) {
             if (isWatchingActivity) { return; }
             startTracking();
-            if (mConfig.getStopOnStillActivity() && activityRecognitionPermitted()) {
+            if (mConfig.getStopOnStillActivity()) {
+                if( (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && !activityRecognitionPermitted()) return;
                 ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(
                         googleApiClient,
                         mConfig.getActivitiesInterval(),
