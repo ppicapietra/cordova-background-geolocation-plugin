@@ -1,5 +1,7 @@
 # Changelog
 
+## [v2.4.1](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.3.2) (2025-03-31)
+
 ## [v2.4.0](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.3.2) (2025-03-31)
 
 ## [v2.3.2](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.3.2) (2025-03-24)

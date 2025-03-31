@@ -91,11 +91,12 @@ public class NotificationHelper {
                         ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
                         : PendingIntent.FLAG_CANCEL_CURRENT;
                     PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, flags);
+                    builder.setContentIntent(contentIntent);
                 }
                 else {
                     PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    builder.setContentIntent(contentIntent);
                 }
-                builder.setContentIntent(contentIntent);
             }
 
             Notification notification = builder.build();
