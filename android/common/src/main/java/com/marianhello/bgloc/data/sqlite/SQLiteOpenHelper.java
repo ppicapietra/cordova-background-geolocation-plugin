@@ -112,14 +112,14 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
             case 14:
                 alterSql.add("ALTER TABLE " + ConfigurationEntry.TABLE_NAME +
                         " ADD COLUMN " + ConfigurationEntry.COLUMN_NAME_NOTIFICATIONS_ENABLED + INTEGER_TYPE);
-            case 15:
-                alterSql.add("ALTER TABLE " + LocationEntry.TABLE_NAME +
-                        " ADD COLUMN " + LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY + REAL_TYPE);
-                alterSql.add("ALTER TABLE " + LocationEntry.TABLE_NAME +
-                        " ADD COLUMN " + LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY + INTEGER_TYPE);
-                alterSql.add("UPDATE " + LocationEntry.TABLE_NAME +
-                                        " SET " + LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY + "= -1," +
-                                        LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY + "= 0");
+            // case 15:
+            //     alterSql.add("ALTER TABLE " + LocationEntry.TABLE_NAME +
+            //             " ADD COLUMN " + LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY + REAL_TYPE);
+            //     alterSql.add("ALTER TABLE " + LocationEntry.TABLE_NAME +
+            //             " ADD COLUMN " + LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY + INTEGER_TYPE);
+            //     alterSql.add("UPDATE " + LocationEntry.TABLE_NAME +
+            //                             " SET " + LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY + "= -1," +
+            //                             LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY + "= 0");
 
                 break; // DO NOT FORGET TO MOVE DOWN BREAK ON DB UPGRADE!!!
             default:

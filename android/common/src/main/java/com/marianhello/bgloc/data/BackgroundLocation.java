@@ -28,13 +28,13 @@ public class BackgroundLocation implements Parcelable {
     private long time = 0;
     private long elapsedRealtimeNanos = 0;
     private float accuracy = 0.0f;
-    private float verticalAccuracy = 0.0f;
+    // private float verticalAccuracy = 0.0f;
     private float speed = 0.0f;
     private float bearing = 0.0f;
     private double altitude = 0.0f;
     private float radius = 0.0f;
     private boolean hasAccuracy = false;
-    private boolean hasVerticalAccuracy = false;
+    // private boolean hasVerticalAccuracy = false;
     private boolean hasAltitude = false;
     private boolean hasSpeed = false;
     private boolean hasBearing = false;
@@ -92,13 +92,13 @@ public class BackgroundLocation implements Parcelable {
         time = l.time;
         elapsedRealtimeNanos = l.elapsedRealtimeNanos;
         accuracy = l.accuracy;
-        verticalAccuracy = l.verticalAccuracy;
+        // verticalAccuracy = l.verticalAccuracy;
         speed = l.speed;
         bearing = l.bearing;
         altitude = l.altitude;
         radius = l.radius;
         hasAccuracy = l.hasAccuracy;
-        hasVerticalAccuracy = l.hasVerticalAccuracy;
+        // hasVerticalAccuracy = l.hasVerticalAccuracy;
         hasAltitude = l.hasAltitude;
         hasSpeed = l.hasSpeed;
         hasBearing = l.hasBearing;
@@ -120,13 +120,13 @@ public class BackgroundLocation implements Parcelable {
         l.time = in.readLong();
         l.elapsedRealtimeNanos = in.readLong();
         l.accuracy = in.readFloat();
-        l.verticalAccuracy = in.readFloat();
+        // l.verticalAccuracy = in.readFloat();
         l.speed = in.readFloat();
         l.bearing = in.readFloat();
         l.altitude = in.readDouble();
         l.radius = in.readFloat();
         l.hasAccuracy = in.readInt() != 0;
-        l.hasVerticalAccuracy = in.readInt() != 0;
+        // l.hasVerticalAccuracy = in.readInt() != 0;
         l.hasAltitude = in.readInt() != 0;
         l.hasSpeed = in.readInt() != 0;
         l.hasBearing = in.readInt() != 0;
@@ -161,10 +161,10 @@ public class BackgroundLocation implements Parcelable {
             l.setIsFromMockProvider(location.isFromMockProvider());
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            l.verticalAccuracy = location.getVerticalAccuracyMeters();
-            l.hasVerticalAccuracy = location.hasVerticalAccuracy();
-        }
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        //     l.verticalAccuracy = location.getVerticalAccuracyMeters();
+        //     l.hasVerticalAccuracy = location.hasVerticalAccuracy();
+        // }
 
         return l;
     }
@@ -183,9 +183,9 @@ public class BackgroundLocation implements Parcelable {
         if (c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_HAS_ACCURACY)) == 1) {
             l.setAccuracy(c.getFloat(c.getColumnIndex(LocationEntry.COLUMN_NAME_ACCURACY)));
         }
-        if (c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY)) == 1) {
-            l.setVerticalAccuracy(c.getFloat(c.getColumnIndex(LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY)));
-        }
+        // if (c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY)) == 1) {
+        //     l.setVerticalAccuracy(c.getFloat(c.getColumnIndex(LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY)));
+        // }
         if (c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_HAS_SPEED)) == 1) {
             l.setSpeed(c.getFloat(c.getColumnIndex(LocationEntry.COLUMN_NAME_SPEED)));
         }
@@ -225,13 +225,13 @@ public class BackgroundLocation implements Parcelable {
         dest.writeLong(time);
         dest.writeLong(elapsedRealtimeNanos);
         dest.writeFloat(accuracy);
-        dest.writeFloat(verticalAccuracy);
+        // dest.writeFloat(verticalAccuracy);
         dest.writeFloat(speed);
         dest.writeFloat(bearing);
         dest.writeDouble(altitude);
         dest.writeFloat(radius);
         dest.writeInt(hasAccuracy ? 1 : 0);
-        dest.writeInt(hasVerticalAccuracy ? 1 : 0);
+        // dest.writeInt(hasVerticalAccuracy ? 1 : 0);
         dest.writeInt(hasAltitude ? 1 : 0);
         dest.writeInt(hasSpeed ? 1 : 0);
         dest.writeInt(hasBearing ? 1 : 0);
@@ -454,14 +454,14 @@ public class BackgroundLocation implements Parcelable {
         this.hasAccuracy = true;
     }
 
-    public float getVerticalAccuracy() {
-        return verticalAccuracy;
-    }
+    // public float getVerticalAccuracy() {
+    //     return verticalAccuracy;
+    // }
 
-    public void setVerticalAccuracy(float accuracy) {
-        this.verticalAccuracy = accuracy;
-        this.hasVerticalAccuracy = true;
-    }
+    // public void setVerticalAccuracy(float accuracy) {
+    //     this.verticalAccuracy = accuracy;
+    //     this.hasVerticalAccuracy = true;
+    // }
 
     /**
      * Get the speed if it is available, in meters/second over ground.
@@ -553,9 +553,9 @@ public class BackgroundLocation implements Parcelable {
         return hasAccuracy;
     }
 
-    public boolean hasVerticalAccuracy() {
-        return hasVerticalAccuracy;
-    }
+    // public boolean hasVerticalAccuracy() {
+    //     return hasVerticalAccuracy;
+    // }
 
     /**
      * True if this location has an altitude.
@@ -727,10 +727,10 @@ public class BackgroundLocation implements Parcelable {
         l.setTime(time);
         if (hasAccuracy) l.setAccuracy(accuracy);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (hasVerticalAccuracy)
-                l.setVerticalAccuracyMeters(verticalAccuracy);
-        }
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        //     if (hasVerticalAccuracy)
+        //         l.setVerticalAccuracyMeters(verticalAccuracy);
+        // }
 
         if (hasAltitude) l.setAltitude(altitude);
         if (hasSpeed) l.setSpeed(speed);
@@ -847,12 +847,12 @@ public class BackgroundLocation implements Parcelable {
             s.append(" acc=???");
         }
 
-        if (hasVerticalAccuracy) {
-            s.append(String.format(" altAcc=%.0f", verticalAccuracy));
-        }
-        else {
-            s.append(" altAcc=???");
-        }
+        // if (hasVerticalAccuracy) {
+        //     s.append(String.format(" altAcc=%.0f", verticalAccuracy));
+        // }
+        // else {
+        //     s.append(" altAcc=???");
+        // }
 
         if (time == 0) {
             s.append(" t=?!?");
@@ -892,7 +892,7 @@ public class BackgroundLocation implements Parcelable {
         json.put("latitude", latitude);
         json.put("longitude", longitude);
         if (hasAccuracy) json.put("accuracy", accuracy);
-        if (hasVerticalAccuracy) json.put("altitudeAccuracy", verticalAccuracy);
+        // if (hasVerticalAccuracy) json.put("altitudeAccuracy", verticalAccuracy);
         if (hasSpeed) json.put("speed", speed);
         if (hasAltitude) json.put("altitude", altitude);
         if (hasBearing) json.put("bearing", bearing);
@@ -924,7 +924,7 @@ public class BackgroundLocation implements Parcelable {
         //values.put(LocationEntry._ID, locationId);
         values.put(LocationEntry.COLUMN_NAME_TIME, time);
         values.put(LocationEntry.COLUMN_NAME_ACCURACY, accuracy);
-        values.put(LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY, verticalAccuracy);
+        // values.put(LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY, verticalAccuracy);
         values.put(LocationEntry.COLUMN_NAME_SPEED, speed);
         values.put(LocationEntry.COLUMN_NAME_BEARING, bearing);
         values.put(LocationEntry.COLUMN_NAME_ALTITUDE, altitude);
@@ -932,7 +932,7 @@ public class BackgroundLocation implements Parcelable {
         values.put(LocationEntry.COLUMN_NAME_LONGITUDE, longitude);
         values.put(LocationEntry.COLUMN_NAME_RADIUS, radius);
         values.put(LocationEntry.COLUMN_NAME_HAS_ACCURACY, hasAccuracy);
-        values.put(LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY, hasVerticalAccuracy);
+        // values.put(LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY, hasVerticalAccuracy);
         values.put(LocationEntry.COLUMN_NAME_HAS_SPEED, hasSpeed);
         values.put(LocationEntry.COLUMN_NAME_HAS_BEARING, hasBearing);
         values.put(LocationEntry.COLUMN_NAME_HAS_ALTITUDE, hasAltitude);
@@ -967,9 +967,9 @@ public class BackgroundLocation implements Parcelable {
         if ("@accuracy".equals(key)) {
             return hasAccuracy ? accuracy : JSONObject.NULL;
         }
-        if ("@altitudeAccuracy".equals(key)) {
-            return hasVerticalAccuracy ? verticalAccuracy : JSONObject.NULL;
-        }
+        // if ("@altitudeAccuracy".equals(key)) {
+        //     return hasVerticalAccuracy ? verticalAccuracy : JSONObject.NULL;
+        // }
         if ("@speed".equals(key)) {
             return hasSpeed ? speed : JSONObject.NULL;
         }
